@@ -10,7 +10,7 @@ package routers
 import (
 
 	"github.com/astaxie/beego"
-	"tianwei.pro/sam/controllers"
+	"tianwei.pro/sam/web/controllers"
 )
 
 func init() {

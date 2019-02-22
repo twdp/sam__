@@ -75,7 +75,7 @@ type UserInfo struct {
 }
 
 func init() {
-	single.Provide(di.NewRpcProviderName("samAgentFacade"), &SamAgentFacade{})
+	single.Provide(di.NewRpcConsumerName("samAgentFacade"), &SamAgentFacade{})
 }
 type SamAgentFacade struct {
 

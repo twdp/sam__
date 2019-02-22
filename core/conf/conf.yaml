@@ -1,0 +1,3 @@
+runmode: dev
+db:
+  url: root:anywhere@tcp(127.0.0.1:3306)/sam?charset=utf8&loc=Asia%2FShanghai

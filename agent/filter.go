@@ -32,29 +32,29 @@ var SamFilter = func(ctx *context.Context) {
 		urlStrategy = _strategy
 	}
 
-	if _, ok := ctx.Input.Session(SamUserInfoSessionKey).(*UserInfo); !ok {
-		// 获取token信息
-		token := ctx.Input.Header(SamTokenHeaderName)
-		if token != "" {
-			token = ctx.GetCookie(SamTokenCookieName)
-		}
-		if token != "" {
-			// 根据token获取用户信息
-			if us, err := a.verifyToken(token); err != nil || us.Err != nil {
-				msg := ""
-				if err != nil {
-					msg = err.Error()
-				} else {
-					msg = us.Err.Error()
-				}
-				ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
-				ctx.ResponseWriter.Write([]byte(msg))
-				return
-			} else {
-				ctx.Output.Session(SamUserInfoSessionKey, us)
-			}
-		}
-	}
+	//if _, ok := ctx.Input.Session(SamUserInfoSessionKey).(*UserInfo); !ok {
+	//	// 获取token信息
+	//	token := ctx.Input.Header(SamTokenHeaderName)
+	//	if token != "" {
+	//		token = ctx.GetCookie(SamTokenCookieName)
+	//	}
+	//	if token != "" {
+	//		// 根据token获取用户信息
+	//		if us, err := a.verifyToken(token); err != nil || us.Err != nil {
+	//			msg := ""
+	//			if err != nil {
+	//				msg = err.Error()
+	//			} else {
+	//				msg = us.Err.Error()
+	//			}
+	//			ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
+	//			ctx.ResponseWriter.Write([]byte(msg))
+	//			return
+	//		} else {
+	//			ctx.Output.Session(SamUserInfoSessionKey, us)
+	//		}
+	//	}
+	//}
 
 	if urlStrategy == Anonymous {
 		return
