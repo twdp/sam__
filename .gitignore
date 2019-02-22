@@ -13,3 +13,5 @@
 .idea/
 *.tmp
 *Router_*.go
+main
+web

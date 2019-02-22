@@ -45,7 +45,7 @@ func (p *PortalController) LoginByEmail() {
 		panic(err)
 	}
 
-	if reply.Err != nil {
+	if reply.Err != "" {
 		count := p.GetSession("passwordWrongCount")
 		c := 1
 		if count == nil {
@@ -55,7 +55,7 @@ func (p *PortalController) LoginByEmail() {
 			p.SetSession("passwordWrongCount", c+1)
 		}
 		result := make(map[string]interface{})
-		result["msg"] = reply.Err.Error()
+		result["msg"] = reply.Err
 		if c > 2 {
 			result["needCpt"] = true
 		}

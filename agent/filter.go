@@ -94,12 +94,12 @@ var SamFilter = func(ctx *context.Context) {
 			return
 		}
 		// 根据token获取用户信息
-		if us, err := a.verifyToken(token); err != nil || us.Err != nil {
+		if us, err := a.verifyToken(token); err != nil || us.Err != "" {
 			msg := ""
 			if err != nil {
 				msg = err.Error()
 			} else {
-				msg = us.Err.Error()
+				msg = us.Err
 			}
 			ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
 			ctx.ResponseWriter.Write([]byte(msg))
