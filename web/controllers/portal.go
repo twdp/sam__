@@ -1,17 +1,14 @@
 package controllers
 
 import (
-	"context"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
-	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/utils/captcha"
-	"sam-web/rpc"
 	"tianwei.pro/business"
 	"tianwei.pro/business/controller"
 	"tianwei.pro/sam/agent"
 	"tianwei.pro/sam/core/dto/req"
-	"tianwei.pro/sam/core/dto/res"
+	"tianwei.pro/sam/core/facade"
 )
 
 var cpt *captcha.Captcha
@@ -39,14 +36,15 @@ func (p *PortalController) LoginByEmail() {
 		return
 	}
 
-	reply := &res.LoginDto{}
-	if err := rpc.UserFacade.Call(context.Background(), "Login", &req.EmailLoginDto{
+	reply, err := facade.RpcUser.Login(&req.EmailLoginDto{
 		Email:    email,
 		Password: password,
-	}, reply); err != nil {
-		logs.Error("call login failed. %v", err)
-		p.E500("系统错误,稍后重试")
+	})
+	//business.CheckError(&reply.Response, err)
+	if err != nil {
+		panic(err)
 	}
+
 	if reply.Err != nil {
 		count := p.GetSession("passwordWrongCount")
 		c := 1
@@ -65,7 +63,7 @@ func (p *PortalController) LoginByEmail() {
 		return
 	}
 
-	param := agent.VerifyTokenParam{
+	param := &agent.VerifyTokenParam{
 		SystemInfoParam: agent.SystemInfoParam{
 			AppKey: beego.AppConfig.String("appkey"),
 			Secret: beego.AppConfig.String("secret"),
@@ -73,15 +71,8 @@ func (p *PortalController) LoginByEmail() {
 		Token: reply.Token,
 	}
 
-	userInfo := &agent.UserInfo{}
-	if err := rpc.SamAgentFacade.Call(context.Background(), "VerifyToken", param, userInfo); err != nil {
-		p.E500("系统错误,稍后重试")
-		return
-	}
-	if reply.Err != nil {
-		p.E500("系统错误,稍后重试")
-		return
-	}
+	userInfo, err := facade.RpcSamAgent.VerifyToken(param)
+	business.CheckError(&userInfo.Response, err)
 
 	p.SetSession(agent.SamUserInfoSessionKey, userInfo)
 

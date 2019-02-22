@@ -2,8 +2,6 @@ package agent
 
 import (
 	"tianwei.pro/business"
-	"tianwei.pro/micro/di"
-	"tianwei.pro/micro/di/single"
 )
 
 // 系统信息
@@ -74,11 +72,7 @@ type UserInfo struct {
 	Permissions []*Permission
 }
 
-func init() {
-	single.Provide(di.NewRpcConsumerName("samAgentFacade"), &SamAgentFacade{})
-}
 type SamAgentFacade struct {
-
 	// 根据appKey 和secret获取系统信息
 	LoadSystemInfo func(param *SystemInfoParam) (*SystemInfo, error)
 

@@ -5,10 +5,9 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/pkg/errors"
 	"tianwei.pro/business"
+	"tianwei.pro/micro/di/single"
 	"tianwei.pro/sam/core/model"
 )
-
-var UserRepositoryInstance = &UserRepository{}
 
 var (
 	UserNotExistErr = errors.New("邮箱不存在")
@@ -16,6 +15,10 @@ var (
 )
 
 type UserRepository struct {
+}
+
+func init() {
+	single.Provide("userRepository", &UserRepository{})
 }
 
 // 根据email查找用户信息

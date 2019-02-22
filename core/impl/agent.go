@@ -86,8 +86,10 @@ func (s *SamCoreAgentImpl) verifySecret(appKey, secret string) (*model.System, e
 }
 
 func (s *SamCoreAgentImpl) VerifyToken(param *agent.VerifyTokenParam) (reply *agent.UserInfo) {
+	reply = &agent.UserInfo{}
 	system, err := s.verifySecret(param.AppKey, param.Secret)
 	if err != nil {
+		reply.Errr = err.Error()
 		reply.Error(err)
 		return reply
 	}
