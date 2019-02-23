@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 	"math/rand"
 	"strings"
+	"sync"
 	"tianwei.pro/business"
 	"tianwei.pro/micro/di"
 	"tianwei.pro/micro/di/single"
@@ -26,7 +27,7 @@ func init() {
 }
 
 type SystemFacadeImpl struct {
-	//sync.Mutex
+	sync.Mutex
 	SystemRepository *repository.SystemRepository `inject:"systemRepository"`
 }
 
@@ -115,12 +116,12 @@ func (s *SystemFacadeImpl) ListByOwner(owner int64) (reply *res.SystemListRespon
 }
 
 func (s *SystemFacadeImpl) generateAppKey() (result string) {
-	//s.Lock()
-	//defer s.Unlock()
+	s.Lock()
+	defer s.Unlock()
 
 	//result = business.CastInt64ToString(time.Now().Unix())
 
-	randLength := 20
+	randLength := 16
 	randType := "Aa0"
 	var num = "0123456789"
 	var lower = "abcdefghijklmnopqrstuvwxyz"
