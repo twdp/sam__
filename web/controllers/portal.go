@@ -37,6 +37,8 @@ func (p *PortalController) LoginByEmail() {
 	}
 
 	reply, err := facade.RpcUser.Login(&req.EmailLoginDto{
+		AppKey: beego.AppConfig.String("appkey"),
+		Secret: beego.AppConfig.String("secret"),
 		Email:    email,
 		Password: password,
 	})
@@ -77,7 +79,7 @@ func (p *PortalController) LoginByEmail() {
 	p.SetSession(agent.SamUserInfoSessionKey, userInfo)
 
 	// 跨 域Secure必须为false
-	p.Ctx.SetCookie(agent.SamTokenCookieName, reply.Token, 30*24*60*60, "/", beego.AppConfig.DefaultString("topDomain", "/"), false, true)
+	p.Ctx.SetCookie(agent.SamTokenCookieName, reply.Token, 30*24*60*60, "/", beego.AppConfig.DefaultString("topDomain", "localhost"), false, true)
 
 	p.ReturnJson(business.H{
 		"token": reply.Token,

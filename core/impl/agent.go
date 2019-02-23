@@ -66,7 +66,7 @@ func (s *SamCoreAgentImpl) LoadSystemInfo(param *agent.SystemInfoParam) (reply *
 		reply.KeepSign = systemInfo.KeepSign
 		reply.Routers = apis
 
-		return nil
+		return reply
 	}
 }
 
@@ -174,7 +174,7 @@ func (s *SamCoreAgentImpl) VerifyToken(param *agent.VerifyTokenParam) (reply *ag
 	}
 
 	reply.Permissions = permissions
-	return nil
+	return reply
 }
 
 func (s *SamCoreAgentImpl) loadUserInfo(userId int64, reply *agent.UserInfo) error {
