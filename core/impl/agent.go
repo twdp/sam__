@@ -19,18 +19,18 @@ var (
 )
 
 type SamCoreAgentImpl struct {
-	systemRepository *repository.SystemRepository
+	SystemRepository *repository.SystemRepository `inject:"systemRepository"`
 
-	apiRepository *repository.ApiRepository
+	ApiRepository *repository.ApiRepository `inject:"apiRepository"`
 
-	branchRepository *repository.BranchRepository
+	BranchRepository *repository.BranchRepository `inject:"branchRepository"`
 }
 
 func init() {
 	agent := &SamCoreAgentImpl{
-		systemRepository: repository.SystemRepositoryInstance,
-		apiRepository:    repository.ApiRepositoryInstance,
-		branchRepository: repository.BranchRepositoryInstance,
+		//systemRepository: repository.SystemRepositoryInstance,
+		//apiRepository:    repository.ApiRepositoryInstance,
+		//branchRepository: repository.BranchRepositoryInstance,
 	}
 	single.Provide(di.NewRpcProviderName("samAgentFacade"), agent)
 }
@@ -45,7 +45,7 @@ func (s *SamCoreAgentImpl) LoadSystemInfo(param *agent.SystemInfoParam) (reply *
 		reply.Error(err)
 		return reply
 	} else {
-		routes, err := s.apiRepository.FindUrlBySystemId(systemInfo.Id)
+		routes, err := s.ApiRepository.FindUrlBySystemId(systemInfo.Id)
 		if business.IsError(err) {
 			reply.Error(err)
 			return reply
@@ -71,7 +71,7 @@ func (s *SamCoreAgentImpl) LoadSystemInfo(param *agent.SystemInfoParam) (reply *
 }
 
 func (s *SamCoreAgentImpl) verifySecret(appKey, secret string) (*model.System, error) {
-	if system, err := s.systemRepository.FindByAppKey(appKey); err != nil {
+	if system, err := s.SystemRepository.FindByAppKey(appKey); err != nil {
 		logs.Warn("app key: %v not found", appKey)
 		return nil, AppKeyOrSecretError
 	} else {
@@ -163,7 +163,7 @@ func (s *SamCoreAgentImpl) VerifyToken(param *agent.VerifyTokenParam) (reply *ag
 			}
 		} else {
 			// 树形权限模型
-			branchIds := s.branchRepository.RecursionBranchIds(role.BranchId)
+			branchIds := s.BranchRepository.RecursionBranchIds(role.BranchId)
 			if role.BranchId != 0 {
 				branchIds = append(branchIds, role.BranchId)
 			}

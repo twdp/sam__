@@ -6,12 +6,13 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"tianwei.pro/business"
+	"tianwei.pro/micro/di/single"
 	cache2 "tianwei.pro/sam/core/cache"
 	"tianwei.pro/sam/core/model"
 )
 
-var SystemRepositoryInstance = &SystemRepository{
-	appKeyCache: cache2.NewCache(),
+func init() {
+	single.Provide("systemRepository", &SystemRepository{appKeyCache: cache2.NewCache()})
 }
 
 var (

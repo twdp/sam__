@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/pkg/errors"
 	"tianwei.pro/business"
+	"tianwei.pro/micro/di/single"
 	cache2 "tianwei.pro/sam/core/cache"
 	"tianwei.pro/sam/core/dto/res"
 	"tianwei.pro/sam/core/model"
@@ -20,6 +21,9 @@ var BranchRepositoryInstance = &BranchRepository{
 	branchCache:   cache2.NewCache(),
 }
 
+func init() {
+	single.Provide("branchRepository", BranchRepositoryInstance)
+}
 type BranchRepository struct {
 	branchIdCache cache.Cache
 	branchCache   cache.Cache

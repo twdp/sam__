@@ -17,6 +17,10 @@ func init() {
 		beego.NSNamespace("/portal",
 			beego.NSInclude(
 				&controllers.PortalController{},
+			)),
+		beego.NSNamespace("/system",
+			beego.NSInclude(
+				&controllers.SystemController{},
 			)))
 
 	beego.AddNamespace(ns)

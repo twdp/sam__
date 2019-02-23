@@ -13,6 +13,8 @@ type Api struct {
 	// 展示的名称
 	Name string
 
+	Flag string `orm:"size(60)"`
+
 	// url路径
 	Path string `orm:"size(100)"`
 
@@ -63,7 +65,8 @@ type Api struct {
 // 多字段唯一键
 func (a *Api) TableUnique() [][]string {
 	return [][]string{
-		{"Path", "Method", "SystemId",},
+		{"Path", "Method", "SystemId"},
+		{"Flag", "SystemId"},
 	}
 }
 

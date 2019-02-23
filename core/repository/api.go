@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/pkg/errors"
 	"tianwei.pro/business"
+	"tianwei.pro/micro/di/single"
 	cache2 "tianwei.pro/sam/core/cache"
 	"tianwei.pro/sam/core/const"
 	"tianwei.pro/sam/core/model"
@@ -19,6 +20,10 @@ var ApiRepositoryInstance = &ApiRepository{
 var (
 	FindApiErr = errors.New("查询api列表失败")
 )
+
+func init() {
+	single.Provide("apiRepository", ApiRepositoryInstance)
+}
 
 type ApiRepository struct {
 	systemApiCache cache.Cache
