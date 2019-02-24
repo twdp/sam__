@@ -79,7 +79,7 @@ var SamFilter = func(ctx *context.Context) {
 		// todo: del
 		if !systemInfo.keepSign {
 			ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
-			ctx.ResponseWriter.Write([]byte("请重新登录"))
+			ctx.ResponseWriter.Write([]byte("{\"msg\":\"请重新登录\"}"))
 			return
 		}
 		// 获取token信息
@@ -90,7 +90,7 @@ var SamFilter = func(ctx *context.Context) {
 
 		if token == "" {
 			ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
-			ctx.ResponseWriter.Write([]byte("请重新登录"))
+			ctx.ResponseWriter.Write([]byte("{\"msg\":\"请重新登录\"}"))
 			return
 		}
 		// 根据token获取用户信息

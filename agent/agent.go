@@ -149,7 +149,7 @@ func (a *agent) loadSysInfo() (*moduleInfo, error) {
 			routes:         routes,
 		}
 
-		cache.Put("---", ss, time.Minute)
+		cache.Put("---", ss, 10 * time.Minute)
 		return ss, nil
 
 	}
