@@ -109,7 +109,7 @@ func (s *SamCoreAgentImpl) VerifyToken(param *agent.VerifyTokenParam) (reply *ag
 		return reply
 	}
 	if len(userRoles) == 0 {
-		return nil
+		return reply
 	}
 	var roleIds []int64
 	for _, userRole := range userRoles {

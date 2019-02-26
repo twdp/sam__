@@ -14,3 +14,8 @@ const (
 	Page
 	Api
 )
+
+const (
+	Official = iota // 默认
+	WxMp            // 微信小程序
+)
