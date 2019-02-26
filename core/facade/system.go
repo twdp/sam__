@@ -13,6 +13,7 @@ type RpcSystemFacade struct {
 	ListByOwner func(owner int64) (*res.SystemListResponse, error)
 }
 
+
 type SystemFacade interface {
 	Stay(stay *req.SystemStay) (reply *res.StayResponse)
 	ListByOwner(owner int64) (reply *res.SystemListResponse)

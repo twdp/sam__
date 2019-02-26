@@ -37,8 +37,8 @@ func (p *PortalController) LoginByEmail() {
 	}
 
 	reply, err := facade.RpcUser.Login(&req.EmailLoginDto{
-		AppKey: beego.AppConfig.String("appkey"),
-		Secret: beego.AppConfig.String("secret"),
+		AppKey:   beego.AppConfig.String("appkey"),
+		Secret:   beego.AppConfig.String("secret"),
 		Email:    email,
 		Password: password,
 	})
